@@ -1,0 +1,130 @@
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        $('#userDateRange').daterangepicker().prev().on(ace.click_event, function() {
+            $(this).next().focus();
+        });
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="main-container-inner">
+       <div  class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try {
+                        ace.settings.check('breadcrumbs', 'fixed')
+                    } catch (e) {
+                    }
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="javascript:void(0);">Home</a>
+                    </li>
+                    <li class="active">Users List</li>
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="table-responsive" ng-controller="UserCtrl" ng-init="userlist()">
+                        <h2>Users List</h2><hr>
+                        <flash-message duration="3000" show-close="true"></flash-message>
+                        <div id="error" style="color: red;" ng-repeat="x in ResponseDetails">{{ x.msg}}</div>
+
+                        <div>
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label >Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                                <div style="float: right; font-size: 25px; margin: 9px 15px;">
+                                    <button class="btn btn-primary" ng-click="redirectToAdduser()">
+                                        <i class="icon-plus bigger-120"></i> Add User
+                                    </button>
+                                    <a href="/api/v1/users/downloadUserList" class="btn btn-primary" target="_blank">
+                                        <i class="icon icon-download "></i>Export Users Record
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="search_control" style="float: right;">
+                            <form role="form" method="POST" name="searchpick" class="form-horizontal">
+                                <div style="float: left;" ng-init="sportsArray()">
+                                    <label>Select Sports</label>
+                                    <select id="sportsId" name="sportsId" ng-model="pickData.sportId">
+                                        <option value="">Select Sports</option>
+                                        <option ng-repeat="x in sportsList" value="{{x.sportId}}">{{x.name| capitalize}}</option>
+                                    </select>
+                                </div>
+                                <div style="float: left;">
+                                    <label>Date Range</label>
+                                    <input placeholder="Date range" ng-model="userData.dateRange" id="userDateRange" type="text" name="userDateRange"/>
+                                    <button class="btn btn-sm btn-primary" ng-click="searchUserByRange(userData)">
+                                        <i class="icon-search bigger-50"></i> Find
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <br/>
+
+
+                        <div class="">
+                            <table id="tbluserlist" class="tblscroll table table-condensed table-bordered table-striped"
+                                   ng-table-columns-binding="boundCols" ng-table="tableParams" show-filter="false">
+                                <colgroup>
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                    <col width="10.33%" />
+                                    <col width="10.33%" />
+                                    <col width="10.33%" />
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                    <col width="10.33%" />
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                    <col width="5.33%" />
+                                </colgroup>
+                                <tr ng-repeat="x in $data| filter: search">
+                                    <td data-title="'Username'" sortable="'username'">{{x.username != '' ? x.username : 'Na'| capitalize}}</td>
+                                    <td data-title="'Email'" sortable="'email'">{{x.email}}</td>
+                                    <td data-title="'Name'" sortable="'first_name'">{{x.first_name == '' && x.last_name == '' ? 'Na' : x.first_name + ' ' + x.last_name| capitalize}}</td>
+                                    <td data-title="'Location'" sortable="'city'">{{x.city == '' && x.state == '' && x.country == '' ? 'Na' : x.city + ', ' + x.state + ', ' + x.country|capitalize}}</td>
+                                    <td data-title="'Picks'" sortable="'totalPicksMade'">{{x.totalPicksMade}}</td>
+                                    <td data-title="'Points'" sortable="'totalPoints'">{{x.totalPoints}}</td>
+                                    <td data-title="'Level'" sortable="'currentLevel'">{{x.currentLevel}}</td>
+                                    <td data-title="'Status'" sortable="'userstatus'">{{x.userstatus}}</td>
+                                    <td data-title="'Referred By'" sortable="'referee_username'">{{x.referee_username ? x.referee_username == '' ? 'Na' : x.referee_username : 'Na'| capitalize}}</td>
+                                    <td data-title="'Referred Users'" sortable="'users_referred'">{{x.users_referred?x.users_referred==''?'0':x.users_referred:'0'}}</td>
+                                    <td data-title="'Account'" sortable="'Accountstatus'">
+                                        <a href="javascript:void(0);" ng-click='changestatus(x.Accountstatus, x._userid)'>
+                                            <span style="color:green" ng-if='x.Accountstatus == "1"'>Active</span>
+                                            <span style="color: red" ng-if='x.Accountstatus == "0"'>Inactive</span>
+                                        </a>
+                                    </td>
+                                    <td data-title="'Joined'" sortable="'joined'">{{x.joined}}</td>
+                                    <td data-title="'Action'">
+                                        <a class='btn-sm btnlngth btn-primary editbtn' href='#/edituserprofile/{{x._userid}}'><i class="icon-pencil"></i></a>
+                                        <a class='btn-sm btnlngth btn-danger deletebtn' ng-click="deleteUser(x._userid)" href='javascript:void(0);'><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <tr ng-if="!$data || $data == '' | filter: search">
+                                    <td colspan="13" style="text-align:center">
+                                        <div class="alert  alert-danger" id="" role="alert">
+                                            <span class="ng-scope">Users record not found</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

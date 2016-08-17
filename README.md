@@ -1,0 +1,1 @@
+This is a sample AngularJS code including controller,factory,services,routes and html.

@@ -1,0 +1,126 @@
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+                $('#gameDateRange').daterangepicker().prev().on(ace.click_event, function() {
+                    $(this).next().focus();
+                });
+                try {
+                    ace.settings.check('main-container', 'fixed')
+                } catch (e) {
+                }
+    </script>
+
+    <div class="main-container-inner">
+        <div  class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                            try {
+                                ace.settings.check('breadcrumbs', 'fixed')
+                            } catch (e) {
+                            }
+                </script>
+
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="javascript:void(0);">Home</a>
+                    </li>
+                    <li class="active">Games List</li>
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="table-responsive" ng-init="getGameList()">
+                        <h2>Games List</h2><hr>
+                        <flash-message duration="3000" show-close="true"></flash-message>
+                        <div class="first_group" style="margin: 0px 0px 0px;">
+
+                            <button class="btn btn-primary" ng-click="pullGameResult()">
+                                <i class="icon-download bigger-120"></i> Pull Game Result from JsonOdds
+                            </button>
+                            <button class="btn btn-primary" ng-click="pullGameData()">
+                                <i class="icon-download bigger-120"></i> Pull Game Data from JsonOdds
+                            </button>
+
+                        </div>
+
+                        <div class="second_group" style="margin: 0px 0px 6px;">
+                          <button class="btn btn-primary" ng-click="redirectToPage('gameMoneyLineOdds')">
+                              <i class="icon-reply bigger-120"></i> Game MoneyLine Odds
+                          </button>
+                          <button class="btn btn-primary" ng-click="redirectToPage('gamePointsSpreadOdds')">
+                              <i class="icon-reply bigger-120"></i> Game Points Spread Odds
+                          </button>
+                          <a href="/api/v1/users/downloadGameList" class="btn btn-primary" target="_blank">
+                              <i class="icon icon-download "></i>Export Game Record
+                          </a>
+                        </div>
+                        
+                        <div class="search_control" style="float: right;">
+                             <form role="form" method="POST" name="searchgame">
+                                <div style="float: left;" ng-init="sportsArray()">
+                                    <label>Select Sports</label>
+                                    <select id="sportsId" name="sportsId" ng-model="pickData.sportId">
+                                        <option value="">Select Sports</option>
+                                        <option ng-repeat="x in sportsList" value="{{x.sportId}}">{{x.name| capitalize}}</option>
+                                    </select>
+                                </div>
+                                <div style="float: right;">
+                                    <label>Date range</label>
+                                    <input placeholder="Date range" ng-model="gameData.dateRange" id="gameDateRange" type="text" name="gameDateRange"/>
+                                    <button class="btn btn-sm btn-primary" ng-click="searchGamesByRange(gameData)">
+                                        <i class="icon-search bigger-50"></i> Find
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+
+                        <div class="">
+                            <table id="tblgamelist" class="tblscroll table table-condensed table-bordered table-striped"
+                                   ng-table-columns-binding="boundCols" ng-table="tableParams" show-filter="false">                                
+                                <tr ng-if="x._id" ng-repeat="x in $data| filter: search">
+                                    <td data-title="'Id'" sortable="'eventId'">{{x.eventId?x.eventId:'Na'}}</td>
+                                    <td data-title="'Sport'" sortable="'sport'">{{x.sport ? x.sport : 'Na'| capitalize}}</td>
+                                    <td data-title="'Fav Team'" sortable="'favTeam_abb'">{{x.favTeam_abb ? x.favTeam_abb : x.favouriteTeam| capitalize}}</td>
+                                    <td data-title="'Dog Team'" sortable="'dogTeam_abb'">{{x.dogTeam_abb ? x.dogTeam_abb : x.underdogTeam| capitalize}}</td>
+                                    <td data-title="'Game Start Time'" sortable="'gameStartTime'">{{x.gameStartTime}}</td>
+                                    <td data-title="'Total Picks Made'" sortable="'totalPicksMade'">{{x.totalPicksMade}}</td>
+                                    <td data-title="'MoneyLine'" sortable="'fav_underdog_ML'">
+                                        <span>{{x.fav_underdog_ML}}</span>
+                                    </td>
+                                    <td data-title="'PointSpread'" sortable="'fav_underdog_PS'">
+                                        <span>{{x.fav_underdog_PS}}</span>
+                                    </td>
+                                    <td data-title="'Payout'" sortable="'fav_underdog_payout'">
+                                        <span>{{x.fav_underdog_payout}}</span>
+                                    </td>
+                                    <td data-title="'Fav Score'" sortable="'favouriteScore'">{{x.favouriteScore?x.favouriteScore:'Na'}}</td>
+                                    <td data-title="'Dog Score'" sortable="'underdogScore'">{{x.underdogScore?x.underdogScore:'Na'}}</td>
+                                    <td data-title="'Winning Team'" sortable="'winningTeam'">{{x.winningTeam ? x.winningTeam : 'Na'| capitalize}}</td>
+                                    <td data-title="'Status'" sortable="'gameStatus'">{{x.gameStatus ? x.gameStatus : 'Na'| capitalize}}</td>
+                                    <td data-title="'IsUpdated'" sortable="'isUpdated'">
+                                        <span style="color:green" ng-if='x.isUpdated == "1"'>Updated</span>
+                                        <span style="color: red" ng-if='x.isUpdated == "0"'>Not Updated</span>
+                                    </td>
+                                    <td data-title="'Action'">
+                                        <a class='btn-sm btnlngth btn-primary editbtn' title="Update default game odds" ng-click="updateGameOddsByEventId(x.sport, x.eventId)" href='javascript:void(0);'><i class="icon-refresh"></i></a>
+                                        <a class='btn-sm btnlngth btn-primary editbtn' title="Edit game odds manually" href='#/editGameInfo/{{x._id}}'><i class="icon-pencil"></i></a>
+                                        <a class='btn-sm btnlngth btn-danger deletebtn' title="Delete game info" ng-click="deleteGame(x._id)" href='javascript:void(0);'><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <tr ng-if="!$data || $data == '' | filter: search">
+                                    <td colspan="15" style="text-align:center">
+                                        <div class="alert  alert-danger" id="" role="alert">
+                                            <span class="ng-scope">Games record not found</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
