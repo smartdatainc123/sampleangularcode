@@ -157,15 +157,8 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
                         isAuthenticated: isSessionExist()
                     }
                 })
-                // PickCtrl
-                .when("/picklist", {
-                    templateUrl: "templates/admin/elements/picklist.html",
-                    controller: "PickCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                // PickCtrl
+                
+               
                 .when("/setting", {
                     templateUrl: "templates/admin/elements/setting.html",
                     controller: "SettingCtrl",
@@ -181,77 +174,7 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
                     }
                 })                
 
-                // GameCtrl
-                .when("/gamelist", {
-                    templateUrl: "templates/admin/elements/gamelist.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gameSearchResult", {
-                    templateUrl: "templates/admin/elements/gameSearchResult.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/editGameInfo/:id", {
-                    templateUrl: "templates/admin/elements/editgame.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/sportslist", {
-                    templateUrl: "templates/admin/elements/sportslist.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/activeSports", {
-                    templateUrl: "templates/admin/elements/activesports.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gameMoneyLineOdds", {
-                    templateUrl: "templates/admin/elements/gameMoneyLineOdds.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gamePointsSpreadOdds", {
-                    templateUrl: "templates/admin/elements/gamePointsSpreadOdds.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gameSearchResult", {
-                    templateUrl: "templates/admin/elements/gameSearchResult.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gameMonelyLineSearchResult", {
-                    templateUrl: "templates/admin/elements/gameMonelyLineSearchResult.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gamePointSpreadSearchResult", {
-                    templateUrl: "templates/admin/elements/gamePointSpreadSearchResult.html",
-                    controller: "GameCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
+                
                 // PageCTRl
                 .when("/contentpages", {
                     templateUrl: "templates/admin/elements/contentpages.html",
@@ -292,13 +215,6 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
                 // calculationsCtrl
                 .when("/calculationList", {
                     templateUrl: "templates/admin/elements/usercalculations.html",
-                    controller: "calculationsCtrl",
-                    resolve: {
-                        isAuthenticated: isSessionExist()
-                    }
-                })
-                .when("/gameErrorOddsList", {
-                    templateUrl: "templates/admin/elements/gameErrorOdds.html",
                     controller: "calculationsCtrl",
                     resolve: {
                         isAuthenticated: isSessionExist()

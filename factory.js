@@ -142,32 +142,10 @@ app.factory('Payment', ['$resource', function($resource) {
     }]);
 
 
-/**
- * Factory for picks module request
- * @access private
- * @return json
- * Created by sarvesh
- * @smartData Enterprises (I) Ltd
- * Created Date 12-June-2016
- */
-app.factory('Picks', ['$resource', function($resource) {
-        return{
-            getPicksList: function(sportId) {
-                return $resource('/api/v1/users/getPicksList/'+ sportId);
-            },
-            getPicksbyRange: function() {
-                return $resource('/api/v1/users/getPicksbyRange', {
-                    save: {method: 'POST'}
-                });
-            },
-            getSportId: function(sportsId) {
-                return $resource('/api/v1/users/getSportId/' + sportsId)
-            },
-        }
-    }]);
+
 
 /**
- * Factory for picks module request
+ * Factory for Pages module request
  * @access private
  * @return json
  * Created by sarvesh
@@ -186,83 +164,6 @@ app.factory('Pages', ['$resource', function($resource) {
                 return $resource('/api/v1/users/updatepageInfo/', {
                     save: {method: 'POST'}
                 });
-            },
-        }
-    }]);
-
-/**
- * Factory for games module request
- * @access private
- * @return json
- * Created by sarvesh
- * @smartData Enterprises (I) Ltd
- * Created Date 15-June-2016
- */
-app.factory('Games', ['$resource', function($resource) {
-        return{
-            getGameList: function() {
-                return $resource('/api/v1/users/getGameList');
-            },
-            allSportsList: function() {
-                return $resource('/api/v1/users/getSportsList');
-            },
-            ActiveSportsArray: function() {
-                return $resource('/api/v1/users/sportsArrayList');
-            },
-            pullGameData: function() {
-                return $resource('/api/v1/users/pullGameData');
-            },
-            pullGameResult: function() {
-                return $resource('/api/v1/users/pullGameResult');
-            },
-            pullJsonOddsFrmAPi: function() {
-                return $resource('/api/v1/users/pullJsonOddsFrmAPi', {
-                    save: {method: 'POST'}
-                });
-            },
-            getAdminGameData: function(gameId) {
-                return $resource('/api/v1/users/getAdminGameData/' + gameId);
-            },
-            updateGameOdds: function() {
-                return $resource('/api/v1/users/updateGameOdds/', {
-                    save: {method: 'POST'}
-                });
-            },
-            updateGameOddsByEventId: function(gameInfo) {
-                return $resource('/api/v1/users/updateGameOddsByEventId/', {
-                    save: {method: 'POST'}
-                });
-            },
-            updateGameInfo: function() {
-                return $resource('/api/v1/users/updateGameInfo', {
-                    save: {method: 'POST'}
-                });
-            },
-            getGamesbyRange: function() {
-                return $resource('/api/v1/users/getGamesbyRange', {
-                    save: {method: 'POST'}
-                });
-            },
-            editGameValue: function(id) {
-                return $resource('/api/v1/users/editGameValue', {
-                    save: {method: 'POST'}
-                });
-            },
-            activeSports: function() {
-                return $resource('/api/v1/users/activeSports', {
-                    save: {method: 'POST'}
-                });
-            },
-            deactiveSports: function() {
-                return $resource('/api/v1/users/deactiveSports', {
-                    save: {method: 'POST'}
-                });
-            },
-            deleteGame: function(Id) {
-                return $resource('/api/v1/users/deleteGame/' + Id)
-            },
-            deleteOdds: function(Id) {
-                return $resource('/api/v1/users/deleteOdds/' + Id)
             },
         }
     }]);
